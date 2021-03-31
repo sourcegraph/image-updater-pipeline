@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd "$(git rev-parse --show-toplevel)"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 set -exuo pipefail
 
 ./install-srcimg.sh
@@ -36,8 +36,9 @@ IMAGES=(
   syntax-highlighter
 )
 
+ROOT="$(git rev-parse --show-toplevel)"
 FILES=()
-mapfile -t FILES < <(fd --extension yaml "Deployment|StatefulSet|DaemonSet")
+mapfile -t FILES < <(fd --absolute-path --extension yaml "Deployment|StatefulSet|DaemonSet" "${ROOT}")
 
 TAG="${TARGET_COMMIT}"
 
