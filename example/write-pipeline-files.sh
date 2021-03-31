@@ -3,18 +3,18 @@
 cd "$(git rev-parse --show-toplevel)"
 set -euxo pipefail
 
-OUTPUT_DIR="${OUTPUT_DIR:-".buildkite"}"
-SCRIPTS_DIR="${OUTPUT_DIR}/image-updater"
+export OUTPUT_DIR="${OUTPUT_DIR:-".buildkite/image-updater"}"
+export SCRIPTS_DIR="${OUTPUT_DIR}/scripts"
 
-rm -rf "${SCRIPTS_DIR}" || true
+rm -rf "${OUTPUT_DIR}" || true
 mkdir -p "${SCRIPTS_DIR}"
 
 # write scripts
-echo "(./example/image-updater-pipeline.dhall).Scripts" | dhall to-directory-tree --output "${SCRIPTS_DIR}"
+echo "(./example/pipeline.dhall).Scripts" | dhall to-directory-tree --output "${SCRIPTS_DIR}"
 fd --extension "sh" . "${SCRIPTS_DIR}" --exec chmod +x '{}'
 
 # write buildkite pipeline
-dhall-to-yaml --generated-comment --file=./example/pipeline.dhall --output="${OUTPUT_DIR}/pipeline.yaml"
+echo "(./example/pipeline.dhall).Pipeline" | dhall-to-yaml --generated-comment --output="${OUTPUT_DIR}/pipeline.yaml"
 
 # format
 yarn
