@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "${BASH_SOURCE[0]}")"
+cd "$(git rev-parse --show-toplevel)"
 set -exuo pipefail
 
 ./install-srcimg.sh
