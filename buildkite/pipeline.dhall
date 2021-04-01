@@ -42,7 +42,8 @@ let GenPipeline
                 }
               ⫽ common
 
-        let commitMessage = "Update Docker images for ${c.repositoryName}"
+        let commitMessage =
+              "Update Docker images to \"\${TARGET_COMMIT?is not set. Please specify the sourcegraph/sourcegraph commit that you would like to be deployed.}\""
 
         let srcimage =
                 bk.Command::{
