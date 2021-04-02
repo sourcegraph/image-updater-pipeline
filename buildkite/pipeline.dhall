@@ -43,14 +43,18 @@ let GenPipeline
               ⫽ common
 
         let targetCommit =
-              "\"\${TARGET_COMMIT?is not set. Please specify the sourcegraph/sourcegraph commit that you would like to be deployed.}\""
+              "\${TARGET_COMMIT?is not set. Please specify the sourcegraph/sourcegraph commit that you would like to be deployed.}"
+
+        let title = "Update Docker images to ${targetCommit}"
+
+        let url =
+              "https://sourcegraph.com/github.com/sourcegraph/sourcegraph@${targetCommit}"
 
         let commitMessage =
               ''
-              Update Docker images to ${targetCommit}
+              ${title}
 
-              See https://sourcegraph.com/github.com/sourcegraph/sourcegraph@${targetCommit}
-              ''
+              See ${url}''
 
         let srcimage =
                 bk.Command::{
@@ -71,8 +75,6 @@ let GenPipeline
                   ]
                 }
               ⫽ common
-
-        let title = "Update docker images to ${targetCommit}"
 
         let createPR =
                 bk.Command::{
