@@ -42,8 +42,15 @@ let GenPipeline
                 }
               ⫽ common
 
+        let targetCommit =
+              "\"\${TARGET_COMMIT?is not set. Please specify the sourcegraph/sourcegraph commit that you would like to be deployed.}\""
+
         let commitMessage =
-              "Update Docker images to \"\${TARGET_COMMIT?is not set. Please specify the sourcegraph/sourcegraph commit that you would like to be deployed.}\""
+              ''
+              Update Docker images to ${targetCommit}
+
+              See https://sourcegraph.com/github.com/sourcegraph/sourcegraph@${targetCommit}
+              ''
 
         let srcimage =
                 bk.Command::{
@@ -65,6 +72,8 @@ let GenPipeline
                 }
               ⫽ common
 
+        let title = "Update docker images to ${targetCommit}"
+
         let createPR =
                 bk.Command::{
                 , label = Some ":github: Open Pull Request"
@@ -74,7 +83,7 @@ let GenPipeline
                 , env = Some
                     ( toMap
                         { HEAD = PR_BRANCH
-                        , TITLE = commitMessage
+                        , TITLE = title
                         , BODY = commitMessage
                         }
                     )
