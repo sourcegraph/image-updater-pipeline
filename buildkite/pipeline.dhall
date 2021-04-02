@@ -47,14 +47,35 @@ let GenPipeline
 
         let title = "Update Docker images to ${targetCommit}"
 
-        let url =
-              "https://sourcegraph.com/github.com/sourcegraph/sourcegraph@${targetCommit}"
+        let urls =
+              { sourcegraph =
+                { commit =
+                    "https://sourcegraph.com/github.com/sourcegraph/sourcegraph/-/commit/${targetCommit}"
+                , tree =
+                    "https://sourcegraph.com/github.com/sourcegraph/sourcegraph@${targetCommit}"
+                }
+              , github =
+                { commit =
+                    "https://github.com/sourcegraph/sourcegraph/commit/${targetCommit}"
+                , tree =
+                    "https://github.com/sourcegraph/sourcegraph/tree/${targetCommit}"
+                }
+              }
 
         let commitMessage =
               ''
               ${title}
 
-              See ${url}''
+              Links:
+
+              [Commit]
+              - sourcegraph: ${urls.sourcegraph.commit}
+              - github: ${urls.github.commit}
+
+              [Tree]
+              - sourcegraph: ${urls.sourcegraph.tree}
+              - github: ${urls.github.tree}
+              ''
 
         let srcimage =
                 bk.Command::{
