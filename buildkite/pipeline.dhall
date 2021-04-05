@@ -5,13 +5,42 @@ let bk = (./imports.dhall).Buildkite
 
 let Steps = bk.Steps
 
-let PR_BRANCH = "update-docker-images/images"
-
 let Config = ./config.dhall
+
+let runScript
+    : ∀(c : Config.Type) → ∀(name : Text) → Text
+    = λ(c : Config.Type) → λ(name : Text) → "${c.scriptsFolder}/${name}"
 
 let Pipeline = { Type = { steps : List Steps }, default = {=} }
 
-let GenPipeline
+let CronTaggerGenerator = ∀(tag : Text) → Pipeline.Type
+
+let CronTagPiplineGenerator
+    : ∀(c : Config.Type) → CronTaggerGenerator
+    = λ(c : Config.Type) →
+      λ(imageName : Text) →
+        let concurrencyGroup = "${c.repositoryName}/cron/tag/${imageName}"
+
+        let tag = "deploy/${imageName}"
+
+        let commit = "\${BUILDKITE_COMMIT}"
+
+        let createTag =
+              bk.Command::{
+              , label = Some ":git: :timer_clock: Tag ${commit} as ${tag}"
+              , commands = [ runScript c "create-tag.sh" ]
+              , env = Some (toMap { TARGET_COMMIT = commit, TAG = tag })
+              , concurrency_group = Some concurrencyGroup
+              , concurrency = Some 1
+              }
+
+        let out = Pipeline::{ steps = [ Steps.Command createTag ] }
+
+        in  out
+
+let PR_BRANCH = "update-docker-images/images"
+
+let ImageUpdaterPipeline
     : ∀(c : Config.Type) → Pipeline.Type
     = λ(c : Config.Type) →
         let concurrencyGroup = "${c.repositoryName}/update-images"
@@ -31,12 +60,10 @@ let GenPipeline
               , concurrency = Some 1
               }
 
-        let runScript = λ(name : Text) → "${c.scriptsFolder}/${name}"
-
         let cleanup =
                 bk.Command::{
                 , label = Some ":broom: :git: cleanup old branch"
-                , commands = [ runScript "clean-branch-if-exists.sh" ]
+                , commands = [ runScript c "clean-branch-if-exists.sh" ]
                 , key = Some "start_gate"
                 , env = Some (toMap { TARGET_BRANCH = PR_BRANCH })
                 }
@@ -80,7 +107,7 @@ let GenPipeline
         let srcimage =
                 bk.Command::{
                 , label = Some ":bash: :k8s: commit 'srcimg' changes"
-                , commands = [ runScript "update-all-images.sh" ]
+                , commands = [ runScript c "update-all-images.sh" ]
                 , key = Some "stage-srcimg"
                 , depends_on = Some (List/unpackOptionals Text [ cleanup.key ])
                 , plugins = Some
@@ -100,7 +127,7 @@ let GenPipeline
         let createPR =
                 bk.Command::{
                 , label = Some ":github: Open Pull Request"
-                , commands = [ runScript "create-pr.sh" ]
+                , commands = [ runScript c "create-pr.sh" ]
                 , key = Some "stage-create-pr"
                 , depends_on = Some (List/unpackOptionals Text [ srcimage.key ])
                 , env = Some
@@ -126,4 +153,14 @@ let GenPipeline
 
         in  out
 
-in  GenPipeline
+let Output =
+      { ImageUpdater : Pipeline.Type, CronTagGenerator : CronTaggerGenerator }
+
+let MakePipelines
+    : ∀(c : Config.Type) → Output
+    = λ(c : Config.Type) →
+        { ImageUpdater = ImageUpdaterPipeline c
+        , CronTagGenerator = CronTagPiplineGenerator c
+        }
+
+in  MakePipelines

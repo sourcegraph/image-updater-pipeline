@@ -13,8 +13,20 @@ mkdir -p "${SCRIPTS_DIR}"
 echo "(./example/pipeline.dhall).Scripts" | dhall to-directory-tree --output "${SCRIPTS_DIR}"
 fd --extension "sh" . "${SCRIPTS_DIR}" --exec chmod +x '{}'
 
-# write buildkite pipeline
-echo "(./example/pipeline.dhall).Pipeline" | dhall-to-yaml --generated-comment --output="${OUTPUT_DIR}/pipeline.yaml"
+PIPELINES="(./example/pipeline.dhall).Pipelines"
+
+# write image-updater pipeline
+echo "${PIPELINES}.ImageUpdater" | dhall-to-yaml --generated-comment --output="${OUTPUT_DIR}/pipeline.yaml"
+
+CRON_IMAGES=(
+  "gitserver"
+  "indexed-search"
+)
+
+# write all cron-tag pipelines
+for IMAGE in "${CRON_IMAGES[@]}"; do
+  echo "${PIPELINES}.CronTagGenerator \"${IMAGE}\"" | dhall-to-yaml --generated-comment --output="${OUTPUT_DIR}/cron-tag-${IMAGE}.pipeline.yaml"
+done
 
 # format
 yarn

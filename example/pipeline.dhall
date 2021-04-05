@@ -8,6 +8,6 @@ let c =
       , scriptsFolder = env:SCRIPTS_DIR as Text ? ".buildkite/image-updater"
       }
 
-let Pipeline = ImageUpdater.MakePipeline c
+let Pipelines = ImageUpdater.MakePipeline c
 
-in  { Pipeline, Scripts = ImageUpdater.Scripts }
+in  { Pipelines, Scripts = ImageUpdater.Scripts }
