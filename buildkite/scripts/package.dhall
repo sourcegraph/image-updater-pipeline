@@ -6,4 +6,6 @@
 , `touch-update-file.sh` = ./touch-update-file.sh as Text
 , `clean-branch-if-exists.sh` = ./clean-branch-if-exists.sh as Text
 , `create-tag.sh` = ./create-tag.sh as Text
+, `file-contains-image.sh` = ./file-contains-image.sh as Text
+, `substitute-image.sh` = ./substitute_image.sh as Text
 }
