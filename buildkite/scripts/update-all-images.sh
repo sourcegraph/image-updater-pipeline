@@ -26,7 +26,6 @@ IMAGES=(
   postgres_exporter
   precise-code-intel-worker
   prometheus
-  query-runner
   redis-cache
   redis-store
   redis_exporter
