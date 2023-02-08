@@ -8,7 +8,7 @@ Kickstart is my personal template repository that bootstaps:
   - [`shellcheck`](https://www.shellcheck.net/): https://www.shellcheck.net/
   - [`shfmt`](https://github.com/mvdan/sh): https://github.com/mvdan/sh
   - [`prettier`](https://prettier.io/): https://prettier.io/
-- A Github Actions CI pipeline powered by [dhall](https://dhall-lang.org/) that enforces all of the above
+- A GitHub Actions CI pipeline powered by [dhall](https://dhall-lang.org/) that enforces all of the above
 - `deno` to assist with writing scripts that would be too messy for bash
 
 # Dependencies
