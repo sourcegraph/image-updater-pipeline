@@ -4,9 +4,9 @@ jobs:
         name: render-CI-pipeline
         runs-on: ubuntu-latest
         steps:
-            - uses: "actions/checkout@v2"
+            - uses: "actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e" # v2.8.0
             - name: Install asdf
-              uses: "asdf-vm/actions/setup@v1.0.1"
+              uses: "asdf-vm/actions/setup@8a229ad98f42a999a0dfbca5293e0ce8a257ed61" # v1.0.1
             - name: Install asdf plugins
               run: "./ci/asdf-add-plugins.sh"
             - name: Install asdf tool versions and packages
@@ -17,9 +17,9 @@ jobs:
         name: dhall-check
         runs-on: ubuntu-latest
         steps:
-            - uses: "actions/checkout@v2"
+            - uses: "actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e" # v2.8.0
             - name: Install asdf
-              uses: "asdf-vm/actions/setup@v1.0.1"
+              uses: "asdf-vm/actions/setup@8a229ad98f42a999a0dfbca5293e0ce8a257ed61" # v1.0.1
             - name: Install asdf plugins
               run: "./ci/asdf-add-plugins.sh"
             - name: Install asdf tool versions and packages
@@ -30,9 +30,9 @@ jobs:
         name: dhall-format
         runs-on: ubuntu-latest
         steps:
-            - uses: "actions/checkout@v2"
+            - uses: "actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e" # v2.8.0
             - name: Install asdf
-              uses: "asdf-vm/actions/setup@v1.0.1"
+              uses: "asdf-vm/actions/setup@8a229ad98f42a999a0dfbca5293e0ce8a257ed61" # v1.0.1
             - name: Install asdf plugins
               run: "./ci/asdf-add-plugins.sh"
             - name: Install asdf tool versions and packages
@@ -45,9 +45,9 @@ jobs:
         name: dhall-freeze
         runs-on: ubuntu-latest
         steps:
-            - uses: "actions/checkout@v2"
+            - uses: "actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e" # v2.8.0
             - name: Install asdf
-              uses: "asdf-vm/actions/setup@v1.0.1"
+              uses: "asdf-vm/actions/setup@8a229ad98f42a999a0dfbca5293e0ce8a257ed61" # v1.0.1
             - name: Install asdf plugins
               run: "./ci/asdf-add-plugins.sh"
             - name: Install asdf tool versions and packages
@@ -60,9 +60,9 @@ jobs:
         name: dhall-lint
         runs-on: ubuntu-latest
         steps:
-            - uses: "actions/checkout@v2"
+            - uses: "actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e" # v2.8.0
             - name: Install asdf
-              uses: "asdf-vm/actions/setup@v1.0.1"
+              uses: "asdf-vm/actions/setup@8a229ad98f42a999a0dfbca5293e0ce8a257ed61" # v1.0.1
             - name: Install asdf plugins
               run: "./ci/asdf-add-plugins.sh"
             - name: Install asdf tool versions and packages
@@ -75,9 +75,9 @@ jobs:
         name: Prettier formatting
         runs-on: ubuntu-latest
         steps:
-            - uses: "actions/checkout@v2"
+            - uses: "actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e" # v2.8.0
             - name: Install asdf
-              uses: "asdf-vm/actions/setup@v1.0.1"
+              uses: "asdf-vm/actions/setup@8a229ad98f42a999a0dfbca5293e0ce8a257ed61" # v1.0.1
             - name: Install asdf plugins
               run: "./ci/asdf-add-plugins.sh"
             - name: Install asdf tool versions and packages
@@ -88,9 +88,9 @@ jobs:
         name: shellcheck
         runs-on: ubuntu-latest
         steps:
-            - uses: "actions/checkout@v2"
+            - uses: "actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e" # v2.8.0
             - name: Install asdf
-              uses: "asdf-vm/actions/setup@v1.0.1"
+              uses: "asdf-vm/actions/setup@8a229ad98f42a999a0dfbca5293e0ce8a257ed61" # v1.0.1
             - name: Install asdf plugins
               run: "./ci/asdf-add-plugins.sh"
             - name: Install asdf tool versions and packages
@@ -101,9 +101,9 @@ jobs:
         name: shfmt
         runs-on: ubuntu-latest
         steps:
-            - uses: "actions/checkout@v2"
+            - uses: "actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e" # v2.8.0
             - name: Install asdf
-              uses: "asdf-vm/actions/setup@v1.0.1"
+              uses: "asdf-vm/actions/setup@8a229ad98f42a999a0dfbca5293e0ce8a257ed61" # v1.0.1
             - name: Install asdf plugins
               run: "./ci/asdf-add-plugins.sh"
             - name: Install asdf tool versions and packages
